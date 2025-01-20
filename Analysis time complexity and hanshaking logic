@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+int adjMatrix[5000][5000]= {0};
+int main()
+{
+    int n;
+    for(n=1000; n<=5000; n+=1000 )
+    {
+        int degrees[5000]= {0};
+        int numOfedges=0;
+        int sumOfdegrees=0;
+        for(int i=0; i<n; i++)
+        {
+            for(int j=i; j<n; j++)
+            {
+                adjMatrix[i][j]=0;
+                adjMatrix[j][i]=0;
+            }
+        }
+        clock_t startTime= clock();
+        printf("\nFor %d:\n",n);
+        srand(time(NULL));
+        for(int i=0; i<n; i++)
+        {
+            degrees[i]=0;
+        }
+        numOfedges=0;
+        for (int i=0; i<n; i++)
+        {
+            for (int j=i+1; j<n; j++)
+            {
+                if (rand() % 2)
+                {
+                    adjMatrix[i][j] = 1;
+                    adjMatrix[j][i] = 1;
+                    degrees[i]++;
+                    degrees[j]++;
+                    numOfedges++;
+                }
+            }
+        }
+        for (int i=0; i<n; i++)
+        {
+            sumOfdegrees += degrees[i];
+        }
+        printf("Sum of degrees = %d\n", sumOfdegrees);
+        printf("Number of edges = %d\n", 2*numOfedges);
+                if (sumOfdegrees == 2 * numOfedges)
+        {
+            printf("Handshaking Logic holds.\n");
+        }
+        else
+        {
+            printf("Handshaking Logic does not hold.\n");
+        }
+        clock_t endTime= clock();
+        double time = ((double)(endTime-startTime)/CLOCKS_PER_SEC)*1000.0;
+        printf("Time = %f:\n", time);
+    }
+    return 0;
+}
